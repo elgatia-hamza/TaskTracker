@@ -1,9 +1,3 @@
 [
-  {
-    "id": 1,
-    "description": "Buy groceries",
-    "status": "todo",
-    "createdAt": "2025-11-09T11:00:00",
-    "updatedAt": "2025-11-09T11:00:00"
-  }
+{"id": 1,"description": "Buy groceries and cook dinner","status": "done","createdAt": "2025-11-09T23:47:31.155792700","updatedAt": "2025-11-09T23:48:53.150411800"}
 ]

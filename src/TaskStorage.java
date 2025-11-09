@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TaskStorage {
 
-    private static final String FILE_NAME = "task.json";
+    private static final String FILE_NAME = "tasks.json";
 
     public static List<Task> loadTasks() {
         List<Task> tasks = new ArrayList<>();
@@ -27,6 +27,8 @@ public class TaskStorage {
             if(json.isEmpty() || json.equals("[]")) return tasks;
 
             json = json.substring(1, json.length() - 1);
+            if(json.isEmpty()) return tasks;
+
             String[] objects = json.split("(?<=\\}),\\s*(?=\\{)");
 
             for (String o : objects) {
@@ -46,9 +48,7 @@ public class TaskStorage {
             bw.write("[\n");
             for (int i = 0; i < tasks.size(); i++){
                 bw.write(toJson(tasks.get(i)));
-
                 if(i < tasks.size() - 1) bw.write(",");
-
                 bw.write("\n");
             }
             bw.write("]");
@@ -65,15 +65,33 @@ public class TaskStorage {
 
     private static Task parseTask(String json) {
         try {
+            json = json.trim();
+            if (json.startsWith("{")) json = json.substring(1);
+            if (json.endsWith("}")) json = json.substring(0, json.length() - 1);
+
             Map<String, String> map = new HashMap<>();
 
-            json = json.trim().replace("[\\{\\}\"]", "");
-            String[] fields = json.split(",");
+            List<String> pairs = new ArrayList<>();
+            StringBuilder current = new StringBuilder();
+            boolean inQuotes = false;
 
-            for (String f : fields) {
-                String[] kv = f.split(":", 2);
-                if(kv.length == 2) {
-                    map.put(kv[0], kv[1]);
+            for (char c : json.toCharArray()) {
+                if (c == '"') inQuotes = !inQuotes;
+                if (c == ',' && !inQuotes) {
+                    pairs.add(current.toString());
+                    current.setLength(0);
+                } else {
+                    current.append(c);
+                }
+            }
+            pairs.add(current.toString());
+
+            for (String pair : pairs) {
+                String[] kv = pair.split(":", 2);
+                if (kv.length == 2) {
+                    String key = kv[0].trim().replace("\"", "");
+                    String value = kv[1].trim().replace("\"", "");
+                    map.put(key, value);
                 }
             }
 
