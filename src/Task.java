@@ -7,11 +7,12 @@ public class Task {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Task(int id, String status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Task(int id, String description) {
         this.id = id;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.description = description;
+        this.status = "todo";
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public LocalDateTime getCreatedAt() {
@@ -53,6 +54,10 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void touchUpdateAt(){
+        this.updatedAt = LocalDateTime.now();
     }
 
     @Override
