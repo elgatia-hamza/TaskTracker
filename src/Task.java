@@ -15,53 +15,33 @@ public class Task {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public Task(int id, String description, String status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.description = description;
+        this.status = status;
         this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
+    public int getId() { return id; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getStatus() { return status; }
     public void setStatus(String status) {
         this.status = status;
         this.updatedAt = LocalDateTime.now();
     }
 
-    public int getId() {
-        return id;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void touchUpdateAt(){
-        this.updatedAt = LocalDateTime.now();
-    }
+    public void touchUpdateAt(){ this.updatedAt = LocalDateTime.now(); }
 
     @Override
     public String toString() {
-        return String.format("%d | %s | %s | created: %s | updated: %s", id, description, status, createdAt, updatedAt);
+        return String.format("[%d] %s (%s)", id, description, status);
     }
 }
